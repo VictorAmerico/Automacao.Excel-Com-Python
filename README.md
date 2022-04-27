@@ -3,7 +3,7 @@ Automação De Excel Com Python
 
 # Inicio do projeto
 
-~~~
+~~~python
 from asyncio.windows_events import NULL
 
 
@@ -104,3 +104,56 @@ while escolha:
  ~~~
  
  # Segunda Etapa
+ Aprendendo a integrar python com Execel com Openpyxl
+ 
+ Créditos: <https://www.youtube.com/watch?v=rCRyCM4JC3E&ab_channel=DevAprender>
+ 
+ #Primeiro contato com a integração Python-Excel (1/2)
+ ~~~~python
+ import openpyxl
+
+#criar uma planilha(book)
+
+book = openpyxl.Workbook();
+
+#Como visualizar páginas existentes
+
+print(book.sheetnames)
+
+#Como criar uma página
+
+book.create_sheet('Frutas')
+
+#Como selecionar uma página
+
+frutas_page = book['Frutas']
+frutas_page.append(['Produto','Quantidade','Preço'])
+frutas_page.append(['Banana','5','R$3,90'])
+frutas_page.append(['Fruta 2','2','R$3,90'])
+frutas_page.append(['Fruta 3','10','R$3,90'])
+frutas_page.append(['Fruta 4','4','R$3,90'])
+
+#Sakvar a planilha
+
+book.save('Planilha de compras.xlsx')
+ ~~~~
+#Primeiro contato com a integração Python-Excel (2/2)
+
+~~~python
+import openpyxl
+
+#Carregando arquivo
+book = openpyxl.load_workbook('Planilha de compras.xlsx')
+#Selecionando uma página
+frutas_page = book['Frutas']
+#Imprimindo os dados de cada linha
+for rows in frutas_page.iter_rows(min_row=2,max_row=5):
+    for cell in rows:
+        #print(f'{rows[0].value},{rows[1].value},{rows[2].value}')
+        if cell.value == 'Banana':
+            cell.value = 'Fruta 1'
+
+#Salvar Alterações
+book.save('Planilha de Compras v2.xlsx')
+
+~~~
